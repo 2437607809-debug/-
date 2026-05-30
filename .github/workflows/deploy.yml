@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          BASE_URL: ${{ github.event.repository.name == 'YOUR_USERNAME.github.io' && '/' || format('/{0}/', github.event.repository.name) }}
+          BASE_URL: ${{ github.event.repository.name == '2437607809-debug.github.io' && '/' || format('/{0}/', github.event.repository.name) }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
