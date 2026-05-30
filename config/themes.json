@@ -1,0 +1,25 @@
+{
+  "default": "fluid",
+  "themes": {
+    "fluid": {
+      "name": "流体渐变",
+      "type": "shader",
+      "colors": ["#1a1a2e", "#e94560", "#0f3460"]
+    },
+    "cosmos": {
+      "name": "深空星波",
+      "type": "shader",
+      "colors": ["#0a0a1a", "#4a4ae8", "#1a1a4e"]
+    },
+    "ocean": {
+      "name": "海浪涌动",
+      "type": "shader",
+      "colors": ["#0a1a2a", "#00b4d8", "#0077b6"]
+    },
+    "image": {
+      "name": "动态图景",
+      "type": "image",
+      "src": "/assets/backgrounds/dynamic-bg.png"
+    }
+  }
+}

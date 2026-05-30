@@ -1,0 +1,59 @@
+{
+  "categories": ["全部", "开发", "设计", "3D"],
+  "items": [
+    {
+      "id": 1,
+      "title": "智能数据看板",
+      "description": "基于Vue3+Three.js的数据可视化平台，支持实时数据流展示。",
+      "category": "开发",
+      "cover": "",
+      "tags": ["Vue3", "Three.js", "WebSocket"],
+      "link": ""
+    },
+    {
+      "id": 2,
+      "title": "3D虚拟展厅",
+      "description": "沉浸式线上美术馆，支持第一人称漫游与作品交互。",
+      "category": "3D",
+      "cover": "",
+      "tags": ["Three.js", "GLSL", "Blender"],
+      "link": ""
+    },
+    {
+      "id": 3,
+      "title": "品牌视觉设计",
+      "description": "为多个品牌打造的视觉识别系统与宣传物料。",
+      "category": "设计",
+      "cover": "",
+      "tags": ["Figma", "Illustrator", "Photoshop"],
+      "link": ""
+    },
+    {
+      "id": 4,
+      "title": "实时协作白板",
+      "description": "多人实时协作的在线白板工具，支持画笔、形状和文字。",
+      "category": "开发",
+      "cover": "",
+      "tags": ["React", "Canvas", "Socket.io"],
+      "link": ""
+    },
+    {
+      "id": 5,
+      "title": "粒子特效编辑器",
+      "description": "可视化粒子效果编辑器，支持实时预览和参数调节。",
+      "category": "3D",
+      "cover": "",
+      "tags": ["WebGL", "GLSL", "React"],
+      "link": ""
+    },
+    {
+      "id": 6,
+      "title": "App UI 设计稿",
+      "description": "社交类App的完整UI设计方案，包含交互原型。",
+      "category": "设计",
+      "cover": "",
+      "tags": ["Figma", "Prototyping", "UI/UX"],
+      "link": ""
+    }
+  ]
+}

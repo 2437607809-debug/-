@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="个人展示网站 - 创意开发者 | 全栈工程师" />
+    <title>个人展示网站</title>
+
+    <!-- Open Graph / 社交分享 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="个人展示网站" />
+    <meta property="og:description" content="创意开发者 / 全栈工程师 - 用代码构建数字世界" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="个人展示网站" />
+    <meta name="twitter:description" content="创意开发者 / 全栈工程师 - 用代码构建数字世界" />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://your-domain.com" />
+
+    <!-- JSON-LD 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "你的名字",
+      "jobTitle": "全栈开发工程师",
+      "url": "https://your-domain.com",
+      "sameAs": [
+        "https://github.com/你的用户名"
+      ],
+      "knowsAbout": ["JavaScript", "Three.js", "React", "Node.js", "Vue3", "WebGL"]
+    }
+    </script>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+      <div class="loader-ring">
+        <svg class="loader-spinner" viewBox="0 0 50 50">
+          <circle class="loader-track" cx="25" cy="25" r="20" fill="none" stroke-width="3" />
+          <circle class="loader-fill" cx="25" cy="25" r="20" fill="none" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="1,200" stroke-dashoffset="0" />
+        </svg>
+      </div>
+      <div class="loader-text" id="loaderText">LOADING</div>
+      <div class="loader-progress" id="loaderProgress">0%</div>
+    </div>
+
+    <!-- Skip to content (可访问性) -->
+    <a href="#hero" class="skip-link">跳转到主内容</a>
+
+    <!-- Three.js 全屏动态背景画布 -->
+    <canvas id="webgl"></canvas>
+
+    <!-- ===== 导航栏 ===== -->
+    <header class="navbar" id="navbar">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo">PORTFOLIO</a>
+        <nav class="nav-links">
+          <a href="#hero" class="nav-link active">首页</a>
+          <a href="#about" class="nav-link">关于</a>
+          <a href="#works" class="nav-link">作品</a>
+          <a href="#contact" class="nav-link">联系</a>
+        </nav>
+        <button class="theme-btn" id="themeToggle" aria-label="切换背景主题">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== HERO 区域 ===== -->
+    <section class="section hero" id="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="typing-text" id="typingText"></span>
+          <span class="cursor">|</span>
+        </h1>
+        <p class="hero-subtitle">创意开发者 / 全栈工程师</p>
+        <p class="hero-desc">用代码构建数字世界，用设计诠释用户体验</p>
+        <div class="hero-cta">
+          <a href="#works" class="btn btn-primary">查看作品</a>
+          <a href="#contact" class="btn btn-outline">联系我</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span class="scroll-text">向下滚动</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT 区域 ===== -->
+    <section class="section about" id="about">
+      <div class="section-container">
+        <h2 class="section-title">关于我</h2>
+        <div class="about-grid">
+          <!-- 左侧：头像 -->
+          <div class="about-avatar-col">
+            <div class="avatar-wrapper">
+              <div class="avatar-ring"></div>
+              <img src="" alt="头像" class="avatar-img" id="avatarImg" />
+              <div class="avatar-placeholder" id="avatarPlaceholder">📷<br/>上传头像</div>
+            </div>
+          </div>
+          <!-- 右侧：信息卡片 -->
+          <div class="about-info-col">
+            <div class="glass-card info-card">
+              <h3 class="info-name" id="infoName">张三</h3>
+              <p class="info-title" id="infoTitle">全栈开发工程师</p>
+              <p class="info-bio" id="infoBio">5年开发经验，热爱技术，专注于前端与3D可视化领域……</p>
+
+              <!-- 技能标签云 -->
+              <div class="skills-cloud" id="skillsCloud">
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Three.js</span>
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">Vue3</span>
+                <span class="skill-tag">WebGL</span>
+              </div>
+            </div>
+
+            <!-- 工作经历 -->
+            <div class="glass-card timeline-card">
+              <h4 class="card-subtitle">工作经历</h4>
+              <div class="timeline" id="timelineExp">
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-period">2023 - 至今</span>
+                    <strong>XX科技 · 高级前端工程师</strong>
+                    <p>负责核心产品前端架构设计</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-period">2020 - 2023</span>
+                    <strong>YY互娱 · 前端开发工程师</strong>
+                    <p>参与多个WebGL项目的开发</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 教育背景 -->
+            <div class="glass-card edu-card">
+              <h4 class="card-subtitle">教育背景</h4>
+              <div class="timeline" id="timelineEdu">
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-content">
+                    <span class="timeline-period">2016 - 2020</span>
+                    <strong>XX大学 · 计算机科学</strong>
+                    <p>本科</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WORKS 区域 ===== -->
+    <section class="section works" id="works">
+      <div class="section-container">
+        <h2 class="section-title">作品展示</h2>
+        <!-- 筛选标签 -->
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="开发">开发</button>
+          <button class="filter-btn" data-filter="设计">设计</button>
+          <button class="filter-btn" data-filter="3D">3D</button>
+        </div>
+        <!-- 作品网格 -->
+        <div class="works-grid" id="worksGrid">
+          <!-- 动态 JS 渲染 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT 区域 ===== -->
+    <section class="section contact" id="contact">
+      <div class="section-container">
+        <h2 class="section-title">联系方式</h2>
+        <div class="contact-grid">
+          <!-- 二维码 -->
+          <div class="glass-card qrcode-card">
+            <div class="qrcode-wrapper" id="qrcodeWrapper">
+              <img src="" alt="微信二维码" class="qrcode-img" id="qrcodeImg" />
+              <div class="qrcode-placeholder" id="qrcodePlaceholder">📱<br/>上传二维码</div>
+            </div>
+            <p class="qrcode-hint">扫码添加微信</p>
+          </div>
+          <!-- 联系表单 -->
+          <div class="contact-info">
+            <div class="glass-card contact-card">
+              <h4 class="card-subtitle">发送消息</h4>
+              <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="formName">姓名</label>
+                    <input type="text" id="formName" name="name" placeholder="你的名字" required />
+                  </div>
+                  <div class="form-field">
+                    <label for="formEmail">邮箱</label>
+                    <input type="email" id="formEmail" name="email" placeholder="your@email.com" required />
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="formMessage">消息</label>
+                  <textarea id="formMessage" name="message" placeholder="说点什么吧……" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
+                  发送消息
+                </button>
+                <p class="form-success" id="formSuccess"></p>
+              </form>
+              <div class="contact-links">
+                <a href="mailto:example@email.com" class="contact-link" id="contactEmail">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+                </a>
+                <a href="https://github.com" class="contact-link" target="_blank" rel="noopener" id="contactGithub">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  <span class="contact-link-text">GitHub</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <p class="footer-copy">&copy; 2026 Portfolio. All Rights Reserved.</p>
+        <div class="footer-links">
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:example@email.com">Email</a>
+        </div>
+        <button class="back-to-top" id="backToTop" aria-label="回到顶部">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+        </button>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

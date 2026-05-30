@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理后台 - Portfolio</title>
+  <style>
+    :root {
+      --bg: #080816;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.1);
+      --text: #e0e0e0;
+      --text2: rgba(255,255,255,0.6);
+      --accent: #e94560;
+      --radius: 12px;
+      --font: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .admin-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      background: rgba(8,8,22,0.8);
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .admin-header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.05em; }
+    .admin-header h1 span { color: var(--accent); }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; cursor: pointer;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      font-family: var(--font); transition: all 0.25s; white-space: nowrap;
+    }
+    .btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+    .btn-primary:hover { box-shadow: 0 0 20px rgba(233,69,96,0.4); }
+    .btn-danger { border-color: rgba(255,80,80,0.4); color: #ff6b6b; }
+    .btn-danger:hover { background: rgba(255,80,80,0.15); border-color: #ff6b6b; }
+    .btn-sm { padding: 5px 12px; font-size: 0.75rem; }
+    .btn-icon { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1rem; }
+
+    .tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      padding: 0 24px; overflow-x: auto;
+    }
+    .tab {
+      padding: 14px 24px; font-size: 0.88rem; cursor: pointer; color: var(--text2);
+      border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+      font-family: var(--font); background: none; border-top: none; border-left: none; border-right: none;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+    .tab-content { display: none; padding: 24px; max-width: 900px; }
+    .tab-content.active { display: block; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 0.82rem; font-weight: 600; color: var(--text2);
+      margin-bottom: 6px; letter-spacing: 0.03em;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: 10px 14px; border-radius: var(--radius);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--text); font-size: 0.9rem; font-family: var(--font);
+      transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+    .upload-area {
+      border: 2px dashed var(--border); border-radius: var(--radius);
+      padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .upload-area:hover { border-color: var(--accent); background: rgba(233,69,96,0.05); }
+    .upload-area.has-image { border-style: solid; border-color: rgba(255,255,255,0.2); }
+    .upload-preview { max-width: 150px; max-height: 150px; border-radius: 8px; margin: 0 auto 8px; display: none; }
+    .upload-area.has-image .upload-preview { display: block; }
+    .upload-hint { font-size: 0.82rem; color: var(--text2); }
+
+    .skill-row, .exp-row, .edu-row, .work-row {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+      position: relative;
+    }
+    .skill-row .form-row { grid-template-columns: 1fr 80px auto; }
+    .row-remove {
+      position: absolute; top: 8px; right: 8px;
+      width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(255,80,80,0.3);
+      background: rgba(255,80,80,0.1); color: #ff6b6b; cursor: pointer;
+      font-size: 0.75rem; display: flex; align-items: center; justify-content: center;
+    }
+    .row-remove:hover { background: rgba(255,80,80,0.25); }
+    .add-row { margin-top: 8px; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 99;
+      padding: 12px 24px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+      background: #22c55e; color: #000; opacity: 0; transform: translateY(10px);
+      transition: all 0.3s;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #ef4444; color: #fff; }
+
+    .info-banner {
+      background: rgba(233,69,96,0.1); border: 1px solid rgba(233,69,96,0.3);
+      border-radius: var(--radius); padding: 12px 16px; margin-bottom: 24px;
+      font-size: 0.82rem; color: var(--text2);
+    }
+    .info-banner strong { color: var(--accent); }
+
+    .msg-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 12px;
+      position: relative;
+    }
+    .msg-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
+    }
+    .msg-from {
+      font-weight: 600; font-size: 0.95rem; color: var(--text);
+    }
+    .msg-from span {
+      font-weight: 400; font-size: 0.82rem; color: var(--text2);
+    }
+    .msg-time {
+      font-size: 0.75rem; color: var(--text2);
+    }
+    .msg-body {
+      font-size: 0.88rem; color: var(--text);
+      line-height: 1.6; white-space: pre-wrap;
+    }
+    .msg-reply {
+      display: inline-block; margin-top: 10px; font-size: 0.78rem;
+      color: var(--accent); text-decoration: none;
+    }
+    .msg-reply:hover { text-decoration: underline; }
+    .msg-delete {
+      position: absolute; top: 10px; right: 10px;
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid rgba(255,80,80,0.3);
+      background: rgba(255,80,80,0.1); color: #ff6b6b;
+      cursor: pointer; font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .msg-delete:hover { background: rgba(255,80,80,0.25); }
+  </style>
+</head>
+<body>
+
+<header class="admin-header">
+  <h1>管理后台</h1>
+  <div class="header-actions">
+    <button class="btn" onclick="Admin.importData()">导入备份</button>
+    <button class="btn" onclick="Admin.exportData()">导出备份</button>
+    <button class="btn btn-danger" onclick="Admin.resetAll()">恢复默认</button>
+    <button class="btn btn-primary" onclick="Admin.saveAll()">保存全部</button>
+    <a href="/" class="btn" style="text-decoration:none">查看网站</a>
+  </div>
+</header>
+
+<nav class="tabs" id="tabNav">
+  <button class="tab active" data-tab="profile">个人资料</button>
+  <button class="tab" data-tab="works">作品管理</button>
+  <button class="tab" data-tab="contact">联系方式</button>
+  <button class="tab" data-tab="settings">网站设置</button>
+  <button class="tab" data-tab="messages">消息管理</button>
+</nav>
+
+<!-- ===== Tab 1: 个人资料 ===== -->
+<div class="tab-content active" id="tab-profile">
+  <div class="info-banner">
+    <strong>提示：</strong>修改后点击「保存全部」生效。头像支持 JPG/PNG/WebP，建议 1:1 正方形。
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>姓名</label>
+      <input type="text" id="profileName" placeholder="你的名字" />
+    </div>
+    <div class="form-group">
+      <label>职位 / 头衔</label>
+      <input type="text" id="profileTitle" placeholder="如：全栈开发工程师" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>个人简介</label>
+    <textarea id="profileBio" placeholder="简短的个人介绍……"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>邮箱</label>
+    <input type="email" id="profileEmail" placeholder="your@email.com" />
+  </div>
+
+  <div class="form-group">
+    <label>GitHub 地址</label>
+    <input type="url" id="profileGithub" placeholder="https://github.com/你的用户名" />
+  </div>
+
+  <div class="form-group">
+    <label>头像上传</label>
+    <div class="upload-area" id="avatarUpload" onclick="document.getElementById('avatarInput').click()">
+      <img class="upload-preview" id="avatarPreview" alt="头像预览" />
+      <div class="upload-hint">点击上传头像（建议 400x400）</div>
+    </div>
+    <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="Admin.handleAvatarUpload(this)" />
+  </div>
+
+  <!-- 技能 -->
+  <div class="form-group">
+    <label>技能标签</label>
+    <div id="skillsContainer"></div>
+    <button class="btn btn-sm add-row" onclick="Admin.addSkill()">+ 添加技能</button>
+  </div>
+
+  <!-- 经历 -->
+  <div class="form-group">
+    <label>工作经历</label>
+    <div id="expContainer"></div>
+    <button class="btn btn-sm add-row" onclick="Admin.addExperience()">+ 添加经历</button>
+  </div>
+
+  <!-- 教育 -->
+  <div class="form-group">
+    <label>教育背景</label>
+    <div id="eduContainer"></div>
+    <button class="btn btn-sm add-row" onclick="Admin.addEducation()">+ 添加教育</button>
+  </div>
+</div>
+
+<!-- ===== Tab 2: 作品管理 ===== -->
+<div class="tab-content" id="tab-works">
+  <div class="info-banner">
+    <strong>提示：</strong>每项作品可上传封面图。点击作品卡片可跳转外部链接。
+  </div>
+
+  <div class="form-group">
+    <label>作品分类（逗号分隔）</label>
+    <input type="text" id="worksCategories" placeholder="全部, 开发, 设计, 3D" />
+  </div>
+
+  <div id="worksContainer"></div>
+  <button class="btn btn-sm add-row" onclick="Admin.addWork()">+ 添加作品</button>
+</div>
+
+<!-- ===== Tab 3: 联系方式 ===== -->
+<div class="tab-content" id="tab-contact">
+  <div class="form-group">
+    <label>邮箱</label>
+    <input type="email" id="contactEmail" placeholder="your@email.com" />
+  </div>
+  <div class="form-group">
+    <label>GitHub</label>
+    <input type="url" id="contactGithub" placeholder="https://github.com/..." />
+  </div>
+  <div class="form-group">
+    <label>微信二维码上传</label>
+    <div class="upload-area" id="qrcodeUpload" onclick="document.getElementById('qrcodeInput').click()">
+      <img class="upload-preview" id="qrcodePreview" alt="二维码预览" />
+      <div class="upload-hint">点击上传微信二维码（建议 1:1 正方形）</div>
+    </div>
+    <input type="file" id="qrcodeInput" accept="image/*" style="display:none" onchange="Admin.handleQRCodeUpload(this)" />
+  </div>
+</div>
+
+<!-- ===== Tab 4: 网站设置 ===== -->
+<div class="tab-content" id="tab-settings">
+  <div class="form-group">
+    <label>网站标题（浏览器标签页显示）</label>
+    <input type="text" id="siteTitle" placeholder="个人展示网站" />
+  </div>
+  <div class="form-group">
+    <label>网站描述（SEO）</label>
+    <textarea id="siteDesc" placeholder="简短描述……"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Hero 区域打字机文字</label>
+    <input type="text" id="siteHeroText" placeholder="Hi, I'm XXX" />
+  </div>
+  <div class="form-group">
+    <label>Hero 副标题</label>
+    <input type="text" id="siteHeroSubtitle" placeholder="创意开发者 / 全栈工程师" />
+  </div>
+  <div class="form-group">
+    <label>Hero 描述</label>
+    <input type="text" id="siteHeroDesc" placeholder="用代码构建数字世界……" />
+  </div>
+  <div class="form-group">
+    <label>默认背景主题</label>
+    <select id="siteTheme">
+      <option value="fluid">流体渐变</option>
+      <option value="cosmos">深空星波</option>
+      <option value="ocean">海浪涌动</option>
+    </select>
+  </div>
+</div>
+
+<!-- ===== Tab 5: 消息管理 ===== -->
+<div class="tab-content" id="tab-messages">
+  <div class="info-banner">
+    <strong>提示：</strong>访客通过网站联系表单提交的消息。消息存储在本地浏览器中。
+  </div>
+  <div class="header-actions" style="margin-bottom:20px">
+    <button class="btn btn-danger btn-sm" onclick="Admin.clearAllMessages()">清空消息</button>
+  </div>
+  <div id="messagesContainer">
+    <p style="color:var(--text2);padding:20px 0">暂无消息</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="/src/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "name": "张三",
+  "title": "全栈开发工程师",
+  "avatar": "assets/avatar.jpg",
+  "bio": "5年开发经验，热爱技术，专注于前端与3D可视化领域。擅长使用Three.js构建沉浸式Web体验，追求代码美学与用户体验的完美结合。",
+  "email": "example@email.com",
+  "github": "https://github.com",
+  "skills": [
+    { "name": "JavaScript", "level": 90 },
+    { "name": "Three.js", "level": 85 },
+    { "name": "React", "level": 80 },
+    { "name": "Node.js", "level": 75 },
+    { "name": "Vue3", "level": 78 },
+    { "name": "WebGL", "level": 72 }
+  ],
+  "experience": [
+    {
+      "company": "XX科技",
+      "role": "高级前端工程师",
+      "period": "2023 - 至今",
+      "description": "负责核心产品前端架构设计，主导3D数据可视化项目。"
+    },
+    {
+      "company": "YY互娱",
+      "role": "前端开发工程师",
+      "period": "2020 - 2023",
+      "description": "参与多个WebGL项目的开发，包括虚拟展厅和互动营销页面。"
+    }
+  ],
+  "education": [
+    {
+      "school": "XX大学",
+      "major": "计算机科学",
+      "period": "2016 - 2020",
+      "degree": "本科"
+    }
+  ]
+}
